@@ -12,7 +12,8 @@
       }
 
       #spin-button {
-        background: #fff;
+        background: #EFB90B;
+        color: white;
         border-radius: 5px;
         color: #000;
         font-weight: bold;
@@ -24,6 +25,21 @@
         cursor: pointer;
         text-align: center;
         min-width: 150px;
+        padding: 10px;
+        border: 5px solid #EFB90B;
+      }
+
+      #spin-button:hover {
+        border: 5px solid #fff;
+        color: #fff;
+      }
+
+      #spin-button:active {
+        background: #D1A20A;
+      }
+
+      .hide {
+        display: none;
       }
 
       #result-box {
@@ -42,7 +58,7 @@
   </head>
 <body>
   
-  <div id="spin-button" onclick="spin()" style="">Spin!</div>
+  <div id="spin-button" onclick="spin()">Spin!</div>
 
   <div id="result-box" style=""></div>
   <script src="https://threejs.org/build/three.js"></script>
@@ -52,18 +68,27 @@
         return Math.floor(Math.random() * Math.floor(max));
     }
 
+    function getSpinButton() {
+      return document.querySelector("#spin-button");
+    }
+
     const DREIDEL_TYPES = [ "נ", "ג", "ה", "ש"];
 
     let spinning = false; // controls spin animation
 
     function spin() {
       console.log("spinning!");
+      document.querySelector("#result-box").innerText = null;
+      getSpinButton().classList.add("hide");
       reset_dreid();
+      var spin_time = getRandomInt(8)*795;
+      if (spin_time < 1000) spin_time += 1000;
       setTimeout(() => {
         var result = DREIDEL_TYPES[getRandomInt(3)];
         document.querySelector("#result-box").innerText = result;
         spinning = false;
-      }, getRandomInt(8)*795);
+        getSpinButton().classList.remove("hide");
+      }, spin_time);
     }
 
     // setup that I can't quite explain
